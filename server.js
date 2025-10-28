@@ -5,6 +5,13 @@ const connectDB = require('./config/db');
 // Load environment variables
 dotenv.config();
 
+// Debug: Check if environment variables are loaded
+console.log('Environment check:');
+console.log('PORT:', process.env.PORT);
+console.log('NODE_ENV:', process.env.NODE_ENV);
+console.log('MONGO_URI exists:', !!process.env.MONGO_URI);
+console.log('MONGODB_URI exists:', !!process.env.MONGODB_URI);
+
 // Connect to database
 connectDB();
 
