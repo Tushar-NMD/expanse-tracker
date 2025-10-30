@@ -7,9 +7,12 @@ const { validationResult } = require('express-validator');
 // @access  Public
 const registerUser = async (req, res) => {
     try {
+        console.log('Registration request received:', req.body);
+        
         // Check for validation errors
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
+            console.log('Validation errors:', errors.array());
             return res.status(400).json({
                 success: false,
                 message: 'Validation failed',
@@ -22,6 +25,7 @@ const registerUser = async (req, res) => {
         // Check if user already exists
         const userExists = await User.findOne({ email });
         if (userExists) {
+            console.log('User already exists:', email);
             return res.status(400).json({
                 success: false,
                 message: 'User already exists with this email'
@@ -36,6 +40,7 @@ const registerUser = async (req, res) => {
         });
 
         if (user) {
+            console.log('User created successfully:', user._id);
             res.status(201).json({
                 success: true,
                 message: 'User registered successfully',
@@ -47,12 +52,14 @@ const registerUser = async (req, res) => {
                 }
             });
         } else {
+            console.log('Failed to create user');
             res.status(400).json({
                 success: false,
                 message: 'Invalid user data'
             });
         }
     } catch (error) {
+        console.error('Registration error:', error);
         res.status(500).json({
             success: false,
             message: 'Server error',
